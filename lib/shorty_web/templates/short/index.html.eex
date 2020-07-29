@@ -1,0 +1,28 @@
+<h1>Listing Shorts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Hash</th>
+      <th>Url</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for short <- @shorts do %>
+    <tr>
+      <td><%= short.hash_id %></td>
+      <td><%= short.url %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.short_path(@conn, :show, short) %></span>
+        <span><%= link "Edit", to: Routes.short_path(@conn, :edit, short) %></span>
+        <span><%= link "Delete", to: Routes.short_path(@conn, :delete, short), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Short", to: Routes.short_path(@conn, :new) %></span>

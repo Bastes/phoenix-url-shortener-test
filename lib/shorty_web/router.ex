@@ -17,6 +17,8 @@ defmodule ShortyWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    resources "/shorts", ShortController
   end
 
   # Other scopes may use custom stacks.

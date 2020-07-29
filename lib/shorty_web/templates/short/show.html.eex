@@ -1,0 +1,18 @@
+<h1>Show Short</h1>
+
+<ul>
+
+  <li>
+    <strong>Hash:</strong>
+    <%= @short.hash_id %>
+  </li>
+
+  <li>
+    <strong>Url:</strong>
+    <%= @short.url %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.short_path(@conn, :edit, @short) %></span>
+<span><%= link "Back", to: Routes.short_path(@conn, :index) %></span>

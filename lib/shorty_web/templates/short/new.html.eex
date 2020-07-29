@@ -1,0 +1,5 @@
+<h1>New Short</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.short_path(@conn, :create)) %>
+
+<span><%= link "Back", to: Routes.short_path(@conn, :index) %></span>
