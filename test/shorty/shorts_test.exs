@@ -23,9 +23,9 @@ defmodule Shorty.ShortsTest do
       assert Shorts.list_shorts() == [short]
     end
 
-    test "get_short!/1 returns the short with given id" do
+    test "get_short!/1 returns the short with given hash_id" do
       short = short_fixture()
-      assert Shorts.get_short!(short.id) == short
+      assert Shorts.get_short!(short.hash_id) == short
     end
 
     test "create_short/1 with valid data creates a short" do
@@ -38,10 +38,19 @@ defmodule Shorty.ShortsTest do
       assert {:error, %Ecto.Changeset{}} = Shorts.create_short(@invalid_attrs)
     end
 
+    test "create_short_from_url/1 with valid data creates a short" do
+      url = "http://some.url/and-then-some.html"
+      short_attrs = %{"url" => url}
+
+      assert {:ok, %Short{} = short} = Shorts.create_short_from_url(short_attrs)
+      assert short.url == url
+      assert String.length(short.hash_id) == 8
+    end
+
     test "delete_short/1 deletes the short" do
       short = short_fixture()
       assert {:ok, %Short{}} = Shorts.delete_short(short)
-      assert_raise Ecto.NoResultsError, fn -> Shorts.get_short!(short.id) end
+      assert_raise Ecto.NoResultsError, fn -> Shorts.get_short!(short.hash_id) end
     end
 
     test "change_short/1 returns a short changeset" do

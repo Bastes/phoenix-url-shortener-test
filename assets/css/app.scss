@@ -38,3 +38,14 @@
 #get-shorty {
   text-align: center;
 }
+
+.form-row {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+
+  label {
+    margin-right: 20px;
+    white-space: nowrap;
+  }
+}

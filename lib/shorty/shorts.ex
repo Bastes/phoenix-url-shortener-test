@@ -21,21 +21,10 @@ defmodule Shorty.Shorts do
     Repo.all(Short)
   end
 
-  @doc """
-  Gets a single short.
-
-  Raises `Ecto.NoResultsError` if the Short does not exist.
-
-  ## Examples
-
-      iex> get_short!(123)
-      %Short{}
-
-      iex> get_short!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_short!(id), do: Repo.get!(Short, id)
+  def get_short!(hash_id) do
+    Short
+    |> Repo.get_by!(hash_id: hash_id)
+  end
 
   @doc """
   Creates a short.
@@ -53,6 +42,27 @@ defmodule Shorty.Shorts do
     %Short{}
     |> Short.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def create_short_from_url(attrs \\ %{}) do
+    %Short{}
+    |> Short.changeset(auto_generate_hash_id(attrs))
+    |> Repo.insert()
+  end
+
+  def auto_generate_hash_id(%{"url" => url} = _attrs) do
+    %{
+      "url" => url,
+      "hash_id" => new_hash()
+    }
+  end
+
+  @hash_id_length 8
+  def new_hash() do
+    @hash_id_length
+    |> :crypto.strong_rand_bytes()
+    |> Base.url_encode64
+    |> binary_part(0, @hash_id_length)
   end
 
   @doc """

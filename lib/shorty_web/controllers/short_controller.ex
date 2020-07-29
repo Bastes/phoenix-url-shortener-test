@@ -15,11 +15,11 @@ defmodule ShortyWeb.ShortController do
   end
 
   def create(conn, %{"short" => short_params}) do
-    case Shorts.create_short(short_params) do
+    case Shorts.create_short_from_url(short_params) do
       {:ok, short} ->
         conn
         |> put_flash(:info, "Short created successfully.")
-        |> redirect(to: Routes.page_path(conn, :index))
+        |> redirect(to: Routes.short_path(conn, :show, short.hash_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

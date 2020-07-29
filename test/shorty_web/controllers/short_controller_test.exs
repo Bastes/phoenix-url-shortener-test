@@ -3,11 +3,11 @@ defmodule ShortyWeb.ShortControllerTest do
 
   alias Shorty.Shorts
 
-  @create_attrs %{hash_id: "some hash_id", url: "some url"}
+  @create_attrs %{"url" => "some url"}
   @invalid_attrs %{hash_id: nil, url: nil}
 
   def fixture(:short) do
-    {:ok, short} = Shorts.create_short(@create_attrs)
+    {:ok, short} = Shorts.create_short_from_url(@create_attrs)
     short
   end
 
@@ -28,10 +28,9 @@ defmodule ShortyWeb.ShortControllerTest do
   describe "create short" do
     test "redirects to show when data is valid", %{conn: conn} do
       conn = post(conn, Routes.short_path(conn, :create), short: @create_attrs)
-
-      assert redirected_to(conn) == Routes.page_path(conn, :index)
-
-      conn = get(conn, Routes.page_path(conn, :index))
+      assert %{id: hash_id} = redirected_params(conn)
+      assert redirected_to(conn) == Routes.short_path(conn, :show, hash_id)
+      conn = get(conn, Routes.short_path(conn, :show, hash_id))
       assert html_response(conn, 200) =~ "Short created successfully."
     end
 
@@ -45,10 +44,10 @@ defmodule ShortyWeb.ShortControllerTest do
     setup [:create_short]
 
     test "deletes chosen short", %{conn: conn, short: short} do
-      conn = delete(conn, Routes.short_path(conn, :delete, short))
+      conn = delete(conn, Routes.short_path(conn, :delete, short.hash_id))
       assert redirected_to(conn) == Routes.short_path(conn, :index)
       assert_error_sent 404, fn ->
-        get(conn, Routes.short_path(conn, :show, short))
+        get(conn, Routes.short_path(conn, :show, short.hash_id))
       end
     end
   end

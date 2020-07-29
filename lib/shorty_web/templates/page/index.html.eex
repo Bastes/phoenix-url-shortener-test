@@ -1,4 +1,6 @@
 <section id="get-shorty">
   <h1><%= gettext "This is Shorty!" %></h1>
   <p>Your trusty url shortener.</p>
+
+  <%= render "form.html", Map.put(assigns, :action, Routes.short_path(@conn, :create)) %>
 </section>

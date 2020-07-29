@@ -1,17 +1,17 @@
-<h1>Show Short</h1>
+<h1>Your url is shortened!</h1>
 
-<ul>
+<section class="row">
 
-  <li>
-    <strong>Hash:</strong>
-    <%= @short.hash_id %>
-  </li>
+  <div class="column">
+    <h2>Your URL was:</h2>
+    <p><%= link @short.url, to: @short.url %></p>
+  </div>
 
-  <li>
-    <strong>Url:</strong>
-    <%= @short.url %>
-  </li>
+  <div class="column">
+    <h2>Your new URL is:</h2>
+    <p><%= link Routes.page_url(@conn, :to_full_url, @short.hash_id), to: Routes.page_url(@conn, :to_full_url, @short.hash_id) %></p>
+  </div>
 
-</ul>
+</section>
 
 <span><%= link "Back", to: Routes.short_path(@conn, :index) %></span>
