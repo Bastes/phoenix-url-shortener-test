@@ -4,12 +4,12 @@
 
   <div class="column">
     <h2>Your URL was:</h2>
-    <p><%= link @short.url, to: @short.url %></p>
+    <p><%= link_to @short.url %></p>
   </div>
 
   <div class="column">
     <h2>Your new URL is:</h2>
-    <p><%= link Routes.page_url(@conn, :to_full_url, @short.hash_id), to: Routes.page_url(@conn, :to_full_url, @short.hash_id) %></p>
+    <p><%= link_to_short(@conn, @short) %></p>
   </div>
 
 </section>
