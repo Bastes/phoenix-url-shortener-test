@@ -6,8 +6,8 @@ defmodule Shorty.ShortsTest do
   describe "shorts" do
     alias Shorty.Shorts.Short
 
-    @valid_attrs %{hash_id: "some hash_id", url: "some url"}
-    @invalid_attrs %{hash_id: nil, url: nil}
+    @valid_attrs %{"hash_id" => "some hash_id", "url" => "some url"}
+    @invalid_attrs %{"hash_id" => nil, "url" => nil}
 
     def short_fixture(attrs \\ %{}) do
       {:ok, short} =
@@ -45,6 +45,32 @@ defmodule Shorty.ShortsTest do
       assert {:ok, %Short{} = short} = Shorts.create_short_from_url(short_attrs)
       assert short.url == url
       assert String.length(short.hash_id) == 8
+    end
+
+    test "find_or_create_short_from_url/1 with valid data creates a new short" do
+      url = "http://some.url/and-then-some.html"
+      short_attrs = %{"url" => url}
+
+      assert {:ok, %Short{} = short} = Shorts.find_or_create_short_from_url(short_attrs)
+      assert short.url == url
+      assert String.length(short.hash_id) == 8
+    end
+
+    test "find_or_create_short_from_url/1 returns pre-existing short" do
+      url = "http://some.url/and-then-some.html"
+      short_attrs = %{"url" => url}
+      preexisting_short = short_fixture(%{"url" => url})
+
+      assert {:ok, %Short{} = short} = Shorts.find_or_create_short_from_url(short_attrs)
+      assert short.url == url
+      assert short.hash_id == preexisting_short.hash_id
+      assert short.id == preexisting_short.id
+    end
+
+    test "find_or_create_short_from_url/1 fails with a nil url" do
+      short_attrs = %{"url" => nil}
+
+      assert {:error, _} = Shorts.find_or_create_short_from_url(short_attrs)
     end
 
     test "delete_short/1 deletes the short" do

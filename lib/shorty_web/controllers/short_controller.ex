@@ -15,7 +15,7 @@ defmodule ShortyWeb.ShortController do
   end
 
   def create(conn, %{"short" => short_params}) do
-    case Shorts.create_short_from_url(short_params) do
+    case Shorts.find_or_create_short_from_url(short_params) do
       {:ok, short} ->
         conn
         |> put_flash(:info, "Short created successfully.")

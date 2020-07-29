@@ -50,6 +50,19 @@ defmodule Shorty.Shorts do
     |> Repo.insert()
   end
 
+  def find_or_create_short_from_url(attrs \\ %{})
+  def find_or_create_short_from_url(%{"url" => url} = attrs) when is_nil(url) do
+    create_short_from_url(attrs)
+  end
+  def find_or_create_short_from_url(%{"url" => url} = attrs) do
+    case Repo.get_by(Short, url: url) do
+      nil ->
+        create_short_from_url(attrs)
+      short ->
+        {:ok, short}
+    end
+  end
+
   def auto_generate_hash_id(%{"url" => url} = _attrs) do
     %{
       "url" => url,
