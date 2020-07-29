@@ -16,12 +16,9 @@
       <td><%= short.url %></td>
 
       <td>
-        <span><%= link "Show", to: Routes.short_path(@conn, :show, short.hash_id) %></span>
         <span><%= link "Delete", to: Routes.short_path(@conn, :delete, short.hash_id), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
-
-<span><%= link "New Short", to: Routes.short_path(@conn, :new) %></span>
