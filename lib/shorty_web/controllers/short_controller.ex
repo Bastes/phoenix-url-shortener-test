@@ -19,7 +19,7 @@ defmodule ShortyWeb.ShortController do
       {:ok, short} ->
         conn
         |> put_flash(:info, "Short created successfully.")
-        |> redirect(to: Routes.short_path(conn, :show, short))
+        |> redirect(to: Routes.page_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -29,26 +29,6 @@ defmodule ShortyWeb.ShortController do
   def show(conn, %{"id" => id}) do
     short = Shorts.get_short!(id)
     render(conn, "show.html", short: short)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    short = Shorts.get_short!(id)
-    changeset = Shorts.change_short(short)
-    render(conn, "edit.html", short: short, changeset: changeset)
-  end
-
-  def update(conn, %{"id" => id, "short" => short_params}) do
-    short = Shorts.get_short!(id)
-
-    case Shorts.update_short(short, short_params) do
-      {:ok, short} ->
-        conn
-        |> put_flash(:info, "Short updated successfully.")
-        |> redirect(to: Routes.short_path(conn, :show, short))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", short: short, changeset: changeset)
-    end
   end
 
   def delete(conn, %{"id" => id}) do

@@ -4,7 +4,6 @@ defmodule ShortyWeb.ShortControllerTest do
   alias Shorty.Shorts
 
   @create_attrs %{hash_id: "some hash_id", url: "some url"}
-  @update_attrs %{hash_id: "some updated hash_id", url: "some updated url"}
   @invalid_attrs %{hash_id: nil, url: nil}
 
   def fixture(:short) do
@@ -30,42 +29,15 @@ defmodule ShortyWeb.ShortControllerTest do
     test "redirects to show when data is valid", %{conn: conn} do
       conn = post(conn, Routes.short_path(conn, :create), short: @create_attrs)
 
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.short_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.page_path(conn, :index)
 
-      conn = get(conn, Routes.short_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Short"
+      conn = get(conn, Routes.page_path(conn, :index))
+      assert html_response(conn, 200) =~ "Short created successfully."
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.short_path(conn, :create), short: @invalid_attrs)
       assert html_response(conn, 200) =~ "New Short"
-    end
-  end
-
-  describe "edit short" do
-    setup [:create_short]
-
-    test "renders form for editing chosen short", %{conn: conn, short: short} do
-      conn = get(conn, Routes.short_path(conn, :edit, short))
-      assert html_response(conn, 200) =~ "Edit Short"
-    end
-  end
-
-  describe "update short" do
-    setup [:create_short]
-
-    test "redirects when data is valid", %{conn: conn, short: short} do
-      conn = put(conn, Routes.short_path(conn, :update, short), short: @update_attrs)
-      assert redirected_to(conn) == Routes.short_path(conn, :show, short)
-
-      conn = get(conn, Routes.short_path(conn, :show, short))
-      assert html_response(conn, 200) =~ "some updated hash_id"
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, short: short} do
-      conn = put(conn, Routes.short_path(conn, :update, short), short: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Short"
     end
   end
 

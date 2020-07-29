@@ -14,5 +14,4 @@
 
 </ul>
 
-<span><%= link "Edit", to: Routes.short_path(@conn, :edit, @short) %></span>
 <span><%= link "Back", to: Routes.short_path(@conn, :index) %></span>

@@ -18,7 +18,7 @@ defmodule ShortyWeb.Router do
 
     get "/", PageController, :index
 
-    resources "/shorts", ShortController
+    resources "/shorts", ShortController, only: [:index, :show, :new, :create, :delete]
   end
 
   # Other scopes may use custom stacks.

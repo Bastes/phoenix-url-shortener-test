@@ -56,24 +56,6 @@ defmodule Shorty.Shorts do
   end
 
   @doc """
-  Updates a short.
-
-  ## Examples
-
-      iex> update_short(short, %{field: new_value})
-      {:ok, %Short{}}
-
-      iex> update_short(short, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_short(%Short{} = short, attrs) do
-    short
-    |> Short.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
   Deletes a short.
 
   ## Examples

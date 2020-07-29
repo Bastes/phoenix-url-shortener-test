@@ -7,7 +7,6 @@ defmodule Shorty.ShortsTest do
     alias Shorty.Shorts.Short
 
     @valid_attrs %{hash_id: "some hash_id", url: "some url"}
-    @update_attrs %{hash_id: "some updated hash_id", url: "some updated url"}
     @invalid_attrs %{hash_id: nil, url: nil}
 
     def short_fixture(attrs \\ %{}) do
@@ -37,19 +36,6 @@ defmodule Shorty.ShortsTest do
 
     test "create_short/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Shorts.create_short(@invalid_attrs)
-    end
-
-    test "update_short/2 with valid data updates the short" do
-      short = short_fixture()
-      assert {:ok, %Short{} = short} = Shorts.update_short(short, @update_attrs)
-      assert short.hash_id == "some updated hash_id"
-      assert short.url == "some updated url"
-    end
-
-    test "update_short/2 with invalid data returns error changeset" do
-      short = short_fixture()
-      assert {:error, %Ecto.Changeset{}} = Shorts.update_short(short, @invalid_attrs)
-      assert short == Shorts.get_short!(short.id)
     end
 
     test "delete_short/1 deletes the short" do
